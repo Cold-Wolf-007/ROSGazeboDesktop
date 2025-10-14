@@ -1,7 +1,7 @@
 FROM dorowu/ubuntu-desktop-lxde-vnc:bionic-lxqt
-LABEL maintainer "jbnunn@gmail.com"
+LABEL maintainer="jbnunn@gmail.com"
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Setup your sources list and keys
 RUN apt-get update && apt-get install -q -y \
@@ -14,7 +14,7 @@ RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E
 
 # Install ROS Melodic
 RUN apt update
-RUN apt-get install -y ros-melodic-desktop-full
+RUN apt-get install -y ros-melodic-desktop-full python-rosdep
 RUN rosdep init && rosdep update
 
 # Install some essentials
@@ -33,8 +33,18 @@ RUN install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
 RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
 RUN apt-get install -y apt-transport-https
 RUN apt-get update
-RUN apt-get install -y code
-RUN pip install pylint
+#RUN apt-get install -y code
+RUN apt-get install -y wget gpg apt-transport-https && \
+    wget -O /tmp/code.deb https://update.code.visualstudio.com/1.74.3/linux-deb-x64/stable && \
+    apt install -y /tmp/code.deb && rm /tmp/code.deb
+
+
+
+#RUN pip install pylint
+RUN apt-get install -y python3 python3-pip
+RUN pip3 install pylint
+
+
 
 # Install Catkin
 RUN apt-get install -y ros-melodic-catkin python-catkin-tools

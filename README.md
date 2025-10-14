@@ -17,9 +17,15 @@ Work you do in the container's `~/data` directory will be saved to your local `d
 Now when launching the container, we'll use the `-v` flag to mount `data` inside the container at `/home/ubuntu/data`.
 
 ### Windows
-
-    docker run -it --rm --name=ros_gazebo_desktop -m=4g -p 6080:80 -p 5900:5900 -v %cd%/data:/home/ubuntu/data -e RESOLUTION=1920x1080 -e USER=ubuntu -e PASSWORD=ubuntu ros-gazebo-desktop 
-
+```
+docker run -it --rm --name=ros_gazebo_desktop -m=4g `
+-p 6080:80 -p 5900:5900 `
+-v "$(pwd)/data:/home/ubuntu/data" `
+-e RESOLUTION=1920x1080 `
+-e USER=ubuntu `
+-e PASSWORD=ubuntu `
+ros-gazebo-desktop
+```
 ### OS X / Linux:
 
     docker run -it --rm --name=ros_gazebo_desktop -m=4g -p 6080:80 -p 5900:5900 -v $PWD/data:/home/ubuntu/data -e RESOLUTION=1920x1080 -e USER=ubuntu -e PASSWORD=ubuntu ros-gazebo-desktop   
